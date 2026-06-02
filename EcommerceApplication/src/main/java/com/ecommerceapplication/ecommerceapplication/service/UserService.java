@@ -1,6 +1,6 @@
 package com.ecommerceapplication.ecommerceapplication.service;
 
-import com.app.ecom.dto.UserDto;
+import com.ecommerceapplication.ecommerceapplication.dto.UserDto;
 
 import java.util.List;
 

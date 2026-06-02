@@ -1,8 +1,8 @@
 package com.ecommerceapplication.ecommerceapplication.service;
 
-import com.app.ecom.dto.UserDto;
-import com.app.ecom.entites.UserEntity;
-import com.app.ecom.repositories.UserRepository;
+import com.ecommerceapplication.ecommerceapplication.dto.UserDto;
+import com.ecommerceapplication.ecommerceapplication.entites.UserEntity;
+import com.ecommerceapplication.ecommerceapplication.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,14 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public List<UserDto> fetchAllUsers() {

@@ -1,7 +1,7 @@
 package com.ecommerceapplication.ecommerceapplication.controller;
 
-import com.app.ecom.dto.UserDto;
-import com.app.ecom.service.UserService;
+import com.ecommerceapplication.ecommerceapplication.dto.UserDto;
+import com.ecommerceapplication.ecommerceapplication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     // Fetching All Users
     @GetMapping()
