@@ -1,4 +1,4 @@
-package com.ecommerceapplication.ecommerceapplication.config;
+package com.ecommerce.application.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

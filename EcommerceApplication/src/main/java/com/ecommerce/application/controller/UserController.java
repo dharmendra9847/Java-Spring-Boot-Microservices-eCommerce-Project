@@ -1,13 +1,16 @@
-package com.ecommerceapplication.ecommerceapplication.controller;
+package com.ecommerce.application.controller;
 
-import com.ecommerceapplication.ecommerceapplication.dto.UserDto;
-import com.ecommerceapplication.ecommerceapplication.service.UserService;
+import com.ecommerce.application.dto.UserRequest;
+import com.ecommerce.application.dto.UserResponse;
+import com.ecommerce.application.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,29 +25,34 @@ public class UserController {
 
     // Fetching All Users
     @GetMapping("getAll")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
     }
 
     // Fetching UserById
     @GetMapping("getById/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        UserDto userDto = userService.getUserById(id);
-        return ResponseEntity.ok(userDto);
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
+        Optional<UserResponse> user = userService.fetchUser(id);
+
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Adding New Users
     @PostMapping("create")
-    public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
-        userService.addUser(userDto);
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
+        userService.addUser(userRequest);
         return ResponseEntity.ok("User added successfully");
     }
 
     // Update User Endpoint
     @PutMapping("update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        userService.updateUser(id, userDto);
-        return ResponseEntity.ok("User updated successfully");
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserRequest updateUserRequest) {
+        boolean updated = userService.updateUser(id, updateUserRequest);
+        if (updated) {
+            return ResponseEntity.ok("User updated successfully");
+        }
+        return ResponseEntity.notFound().build();
     }
 
     // Delete User Endpoint
