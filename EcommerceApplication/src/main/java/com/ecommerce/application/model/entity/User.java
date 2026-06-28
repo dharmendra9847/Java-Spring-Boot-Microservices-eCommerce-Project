@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-        name = "users",
+        name = "user_table",
         indexes = {
                 @Index(name = "idx_user_email", columnList = "email"),
                 @Index(name = "idx_user_phone", columnList = "phone")

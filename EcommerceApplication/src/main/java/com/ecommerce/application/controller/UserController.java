@@ -24,13 +24,15 @@ public class UserController {
     }
 
     // Fetching All Users
-    @GetMapping("getAll")
+    //@GetMapping("getAll")
+    @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
     }
 
     // Fetching UserById
-    @GetMapping("getById/{id}")
+    //@GetMapping("getById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
         Optional<UserResponse> user = userService.fetchUser(id);
 
@@ -39,14 +41,16 @@ public class UserController {
     }
 
     // Adding New Users
-    @PostMapping("create")
+    //@PostMapping("create")
+    @PostMapping()
     public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
         userService.addUser(userRequest);
         return ResponseEntity.ok("User added successfully");
     }
 
     // Update User Endpoint
-    @PutMapping("update/{id}")
+    //@PutMapping("update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserRequest updateUserRequest) {
         boolean updated = userService.updateUser(id, updateUserRequest);
         if (updated) {
@@ -56,7 +60,8 @@ public class UserController {
     }
 
     // Delete User Endpoint
-    @DeleteMapping("delete/{id}")
+    //@DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.ok("User deleted successfully");
